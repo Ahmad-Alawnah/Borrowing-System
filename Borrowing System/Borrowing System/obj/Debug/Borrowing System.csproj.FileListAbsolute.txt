@@ -1,0 +1,13 @@
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\bin\Debug\Borrowing System.exe.config
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\bin\Debug\Borrowing System.exe
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\bin\Debug\Borrowing System.pdb
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\bin\Debug\System.Data.SQLite.dll
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\bin\Debug\System.Data.SQLite.xml
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing System.csprojAssemblyReference.cache
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing_System.App.resources
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing_System.Main.resources
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing_System.Properties.Resources.resources
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing System.csproj.GenerateResource.cache
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing System.csproj.CopyComplete
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing System.exe
+C:\Users\aalaw\source\repos\Borrowing System\Borrowing System\obj\Debug\Borrowing System.pdb
