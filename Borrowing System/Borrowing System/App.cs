@@ -110,6 +110,33 @@ namespace Borrowing_System
             }
             reader.Close();
         }
+        public void Deselect_User()
+        {
+            button2.Enabled = false;
+            button6.Enabled = false;
+            textBox8.Text = "";
+            textBox9.Text = "";
+            numericUpDown4.Value = 1m;
+            numericUpDown3.Value = 1m;
+            if (listView1.SelectedItems.Count > 0)
+            {               
+                listView1.SelectedItems[0].Focused = false;
+                listView1.SelectedItems[0].Selected = false;
+            }
+        }
+        public void Deselect_Book()
+        {
+            button5.Enabled = false;
+            textBox5.Text = "";
+            textBox7.Text = "";
+            numericUpDown2.Value = 1m;
+            button4.Enabled = false;
+            if (listView2.SelectedItems.Count > 0)
+            {                
+                listView2.SelectedItems[0].Focused = false;
+                listView2.SelectedItems[0].Selected = false;
+            }
+        }
         private void App_Load(object sender, EventArgs e)
         {
             numericUpDown2.Controls[0].Visible = false;
@@ -190,12 +217,7 @@ namespace Borrowing_System
             }
             else
             {
-                button2.Enabled = false;
-                button6.Enabled = false;
-                numericUpDown3.Value = 1;
-                textBox8.Text = "";
-                textBox9.Text = "";
-                numericUpDown4.Value = 1;
+                Deselect_User();
             }
         }
 
@@ -208,12 +230,8 @@ namespace Borrowing_System
             listView3.Items.Clear();
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
-            button2.Enabled = false;
-            button6.Enabled = false;
-            textBox8.Text = "";
-            textBox9.Text = "";
-            numericUpDown4.Value = 1m;
-            numericUpDown3.Value = 1m;
+            Deselect_User();
+            button7.Enabled = false;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -238,12 +256,8 @@ namespace Borrowing_System
             listView3.Items.Clear();
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
-            button6.Enabled = false;
-            textBox8.Text = "";
-            textBox9.Text = "";
-            numericUpDown4.Value = 1m;
-            numericUpDown3.Value = 1m;
-            button2.Enabled = false;
+            Deselect_Book();
+            button7.Enabled = false;
                    
         }
 
@@ -280,11 +294,7 @@ namespace Borrowing_System
             }
             else
             {
-                button5.Enabled = false;
-                button4.Enabled = false;
-                numericUpDown2.Value = 1;
-                textBox5.Text = "";
-                textBox7.Text = "";
+                Deselect_Book();
             }
         }
 
@@ -300,11 +310,9 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
-            button5.Enabled = false;
-            button4.Enabled = false;
-            textBox5.Text = "";
-            textBox7.Text = "";
-            numericUpDown2.Value = 1m;
+            Deselect_Book();
+            button7.Enabled = false;
+            button8.Enabled = false;
 
         }
 
@@ -325,11 +333,9 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
-            button5.Enabled = false;
-            button4.Enabled = false;
-            textBox5.Text = "";
-            textBox7.Text = "";
-            numericUpDown2.Value = 1m;
+            Deselect_Book();
+            button8.Enabled = false;
+            button7.Enabled = false;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -343,7 +349,11 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+            Deselect_User();
+            Deselect_Book();
             button7.Enabled = false;
+            button8.Enabled = false;
+
         }
 
         private void listView3_SelectedIndexChanged(object sender, EventArgs e)
@@ -391,11 +401,10 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
-
-            if (listView5.SelectedItems.Count == 0)
-            {
-                button8.Enabled = false;
-            }
+            Deselect_User();
+            Deselect_Book();
+            button7.Enabled = false;
+            button8.Enabled = false;
         }
     }
 }
