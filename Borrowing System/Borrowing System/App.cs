@@ -112,6 +112,8 @@ namespace Borrowing_System
         }
         private void App_Load(object sender, EventArgs e)
         {
+            numericUpDown2.Controls[0].Visible = false;
+            numericUpDown3.Controls[0].Visible = false;
             connection = new SQLiteConnection("Data Source=DB.sqlite;Version=3;");
             connection.Open();
 
@@ -158,6 +160,11 @@ namespace Borrowing_System
                 MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            else if (numericUpDown1.Value > 120m || numericUpDown1.Value < 1m)
+            {
+                MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             User u1 = new User(textBox1.Text, textBox2.Text, int.Parse(numericUpDown1.Value.ToString()));
             string add = $"INSERT INTO USER VALUES({u1.ID},'{u1.Name}','{u1.Address}',{u1.Age});";
@@ -201,6 +208,12 @@ namespace Borrowing_System
             listView3.Items.Clear();
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
+            button2.Enabled = false;
+            button6.Enabled = false;
+            textBox8.Text = "";
+            textBox9.Text = "";
+            numericUpDown4.Value = 1m;
+            numericUpDown3.Value = 1m;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -209,6 +222,11 @@ namespace Borrowing_System
             if (textBox8.Text=="" || textBox9.Text == "")
             {
                 MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else if (numericUpDown4.Value > 120m || numericUpDown4.Value < 1m)
+            {
+                MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -220,7 +238,12 @@ namespace Borrowing_System
             listView3.Items.Clear();
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
-
+            button6.Enabled = false;
+            textBox8.Text = "";
+            textBox9.Text = "";
+            numericUpDown4.Value = 1m;
+            numericUpDown3.Value = 1m;
+            button2.Enabled = false;
                    
         }
 
@@ -277,6 +300,12 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+            button5.Enabled = false;
+            button4.Enabled = false;
+            textBox5.Text = "";
+            textBox7.Text = "";
+            numericUpDown2.Value = 1m;
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -296,7 +325,11 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
-
+            button5.Enabled = false;
+            button4.Enabled = false;
+            textBox5.Text = "";
+            textBox7.Text = "";
+            numericUpDown2.Value = 1m;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -310,10 +343,7 @@ namespace Borrowing_System
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
-            if (listView3.SelectedItems.Count == 0 || listView4.SelectedItems.Count == 0)
-            {
-                button7.Enabled = false;
-            }
+            button7.Enabled = false;
         }
 
         private void listView3_SelectedIndexChanged(object sender, EventArgs e)
