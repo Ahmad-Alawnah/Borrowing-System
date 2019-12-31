@@ -165,6 +165,7 @@ namespace Borrowing_System
             command.ExecuteNonQuery();
 
             Select_Star_User();
+            Select_Star_User_Borrow_Tab();
         }
 
 
@@ -196,7 +197,10 @@ namespace Borrowing_System
             string delete = $"DELETE FROM USER WHERE ID ={listView1.SelectedItems[0].Text};";
             SQLiteCommand command = new SQLiteCommand(delete, connection);
             command.ExecuteNonQuery();
-            listView1.Items.Remove(listView1.SelectedItems[0]);
+            listView1.Items.Clear();
+            listView3.Items.Clear();
+            Select_Star_User();
+            Select_Star_User_Borrow_Tab();
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -213,7 +217,9 @@ namespace Borrowing_System
             SQLiteCommand command = new SQLiteCommand(update, connection);
             command.ExecuteNonQuery();
             listView1.Items.Clear();
+            listView3.Items.Clear();
             Select_Star_User();
+            Select_Star_User_Borrow_Tab();
 
                    
         }

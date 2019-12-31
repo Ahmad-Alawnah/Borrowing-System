@@ -77,6 +77,9 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.listView4 = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -86,17 +89,14 @@
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
             this.listView5 = new System.Windows.Forms.ListView();
             this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader19 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button8 = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -117,7 +117,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1075, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1075, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -634,6 +634,35 @@
             this.tabPage3.Text = "Borrow";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Enabled = false;
+            this.button7.Location = new System.Drawing.Point(461, 403);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(125, 30);
+            this.button7.TabIndex = 5;
+            this.button7.Text = "Borrow";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 36);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(45, 17);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Users";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(589, 36);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(111, 17);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Available books:";
+            // 
             // listView4
             // 
             this.listView4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -703,35 +732,6 @@
             this.columnHeader12.Text = "Age";
             this.columnHeader12.Width = 50;
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(589, 36);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(111, 17);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Available books:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 36);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(45, 17);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Users";
-            // 
-            // button7
-            // 
-            this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(461, 403);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(125, 30);
-            this.button7.TabIndex = 5;
-            this.button7.Text = "Borrow";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.label15);
@@ -744,6 +744,26 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Unborrow";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(205, 22);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(114, 17);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Borrowed books:";
+            // 
+            // button8
+            // 
+            this.button8.Enabled = false;
+            this.button8.Location = new System.Drawing.Point(426, 403);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(136, 33);
+            this.button8.TabIndex = 2;
+            this.button8.Text = "Unborrow";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // listView5
             // 
@@ -781,26 +801,6 @@
             // 
             this.columnHeader19.Text = "Borrowed By";
             this.columnHeader19.Width = 120;
-            // 
-            // button8
-            // 
-            this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(426, 403);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(136, 33);
-            this.button8.TabIndex = 2;
-            this.button8.Text = "Unborrow";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(205, 22);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 17);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "Borrowed books:";
             // 
             // App
             // 
