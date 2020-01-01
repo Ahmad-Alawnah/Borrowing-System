@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using System.IO;
 
 namespace Borrowing_System
 {
     public partial class App : Form
     {
         SQLiteConnection connection;
+        StreamReader reader;
+        StreamWriter writer;
         public App()
         {
             InitializeComponent();
@@ -137,18 +140,36 @@ namespace Borrowing_System
                 listView2.SelectedItems[0].Selected = false;
             }
         }
+        public void Add_To_Log(string log)
+        {
+            reader = new StreamReader("log.txt");
+            string tempData = "";
+            while (!reader.EndOfStream)
+            {
+                tempData += reader.ReadLine() + '\n';
+            }
+
+            reader.Close();
+            writer = new StreamWriter("log.txt");
+            writer.WriteLine(tempData);
+            writer.WriteLine(log + DateTime.Now);
+            writer.Close();
+        }
         private void App_Load(object sender, EventArgs e)
         {
             numericUpDown2.Controls[0].Visible = false;
             numericUpDown3.Controls[0].Visible = false;
+
             connection = new SQLiteConnection("Data Source=DB.sqlite;Version=3;");
             connection.Open();
 
             Select_Star_User();
             Select_Star_Book();
+
             Select_Star_User_Borrow_Tab();
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book_Unborrow_Tab();
+
             string sql = "SELECT COUNT(ID) FROM User;";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -194,12 +215,16 @@ namespace Borrowing_System
             }
 
             User u1 = new User(textBox1.Text, textBox2.Text, int.Parse(numericUpDown1.Value.ToString()));
+
             string add = $"INSERT INTO USER VALUES({u1.ID},'{u1.Name}','{u1.Address}',{u1.Age});";
             SQLiteCommand command = new SQLiteCommand(add, connection);
             command.ExecuteNonQuery();
 
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
+
+            //storing into the log
+            Add_To_Log($"Added a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
         }
 
 
@@ -223,15 +248,35 @@ namespace Borrowing_System
 
         private void button2_Click(object sender, EventArgs e)
         {
+            User u1 = new User();
+            u1.Name = listView1.SelectedItems[0].SubItems[1].Text;
+            u1.Address = listView1.SelectedItems[0].SubItems[2].Text;
+            u1.Age = int.Parse(listView1.SelectedItems[0].SubItems[3].Text);
+
             string delete = $"DELETE FROM USER WHERE ID ={listView1.SelectedItems[0].Text};";
             SQLiteCommand command = new SQLiteCommand(delete, connection);
             command.ExecuteNonQuery();
+
             listView1.Items.Clear();
             listView3.Items.Clear();
+            listView2.Items.Clear();
+            listView4.Items.Clear();
+            listView5.Items.Clear();
+
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
+            Select_Star_Book();
+            Select_Star_Book_Borrow_Tab();
+            Select_Star_Book_Unborrow_Tab();
+
             Deselect_User();
+            Deselect_Book();
             button7.Enabled = false;
+            button8.Enabled = false;
+            //storing into the log
+
+            Add_To_Log($"Deleted a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
+
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -250,15 +295,27 @@ namespace Borrowing_System
 
             string update = $"UPDATE User SET Name='{textBox8.Text}', Address='{textBox9.Text}', Age={numericUpDown4.Value} WHERE ID = {numericUpDown3.Value};";
 
+            User u1 = new User();
+            u1.Name = textBox8.Text;
+            u1.Address = textBox9.Text;
+            u1.Age = int.Parse(numericUpDown4.Value.ToString());
+
             SQLiteCommand command = new SQLiteCommand(update, connection);
             command.ExecuteNonQuery();
+
             listView1.Items.Clear();
             listView3.Items.Clear();
+
             Select_Star_User();
             Select_Star_User_Borrow_Tab();
+
             Deselect_Book();
+
             button7.Enabled = false;
-                   
+
+            //storing into the log
+            Add_To_Log($"Updated a user, new record: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -271,14 +328,20 @@ namespace Borrowing_System
             }
 
             Book b1 = new Book(textBox3.Text, textBox4.Text);
+
             string add = $"INSERT INTO Book VALUES({b1.ID},'{b1.Title}','{b1.Author}',NULL);";
             SQLiteCommand command = new SQLiteCommand(add, connection);
             command.ExecuteNonQuery();
+
             listView4.Items.Clear();
             listView5.Items.Clear();
+
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+
+            //storing into the log
+            Add_To_Log($"Added a Book: '{b1.Title}, {b1.Author}', on ");
 
         }
 
@@ -300,19 +363,30 @@ namespace Borrowing_System
 
         private void button5_Click(object sender, EventArgs e)
         {
+            Book b1 = new Book();
+            b1.Title = listView2.SelectedItems[0].SubItems[1].Text;
+            b1.Author = listView2.SelectedItems[0].SubItems[2].Text;
+
             string delete = $"DELETE FROM Book WHERE ID ={listView2.SelectedItems[0].Text};";
             SQLiteCommand command = new SQLiteCommand(delete, connection);
             command.ExecuteNonQuery();
+
             listView2.Items.Remove(listView2.SelectedItems[0]);
             listView4.Items.Clear();
             listView5.Items.Clear();
             listView2.Items.Clear();
+
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+
             Deselect_Book();
+
             button7.Enabled = false;
             button8.Enabled = false;
+
+            //storing into the log
+             Add_To_Log($"Deleted a book: '{b1.Title}, {b1.Author}', on ");
 
         }
 
@@ -327,33 +401,60 @@ namespace Borrowing_System
             string update = $"UPDATE Book SET Title='{textBox5.Text}', Author='{textBox7.Text}' WHERE ID={numericUpDown2.Value};";
             SQLiteCommand command = new SQLiteCommand(update, connection);
             command.ExecuteNonQuery();
+
+            Book b1 = new Book();
+            b1.Author = textBox7.Text;
+            b1.Title = textBox5.Text;
+
             listView4.Items.Clear();
             listView5.Items.Clear();
             listView2.Items.Clear();
+
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+
             Deselect_Book();
+
             button8.Enabled = false;
             button7.Enabled = false;
+
+            //storing into the log
+            Add_To_Log($"Updated a book, new record: '{b1.Title}, {b1.Author}', on ");
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
+
             string borrow = $"UPDATE BOOK SET UserID ={listView3.SelectedItems[0].Text} WHERE ID = {listView4.SelectedItems[0].Text};";
             SQLiteCommand command = new SQLiteCommand(borrow, connection);
             command.ExecuteNonQuery();
+
+            Book b1 = new Book();
+            b1.Title = listView4.SelectedItems[0].SubItems[1].Text;
+            b1.Author = listView4.SelectedItems[0].SubItems[2].Text;
+
+            User u1 = new User();
+            u1.Name = listView3.SelectedItems[0].SubItems[1].Text;
+            u1.Address = listView3.SelectedItems[0].SubItems[2].Text;
+            u1.Age = int.Parse(listView3.SelectedItems[0].SubItems[3].Text);
+
             listView4.Items.Clear();
             listView5.Items.Clear();
             listView2.Items.Clear();
+
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+
             Deselect_User();
             Deselect_Book();
+
             button7.Enabled = false;
             button8.Enabled = false;
 
+            //storing into the log
+            Add_To_Log($"Borrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Borrowed Book: '{b1.Title}, {b1.Author}', on ");
         }
 
         private void listView3_SelectedIndexChanged(object sender, EventArgs e)
@@ -392,19 +493,40 @@ namespace Borrowing_System
 
         private void button8_Click(object sender, EventArgs e)
         {
+            string log = $"SELECT Name, Address, Age FROM User WHERE ID ={listView5.SelectedItems[0].SubItems[3].Text};";
             string unborrow = $"UPDATE Book SET UserID = NULL WHERE ID={listView5.SelectedItems[0].Text};";
             SQLiteCommand command = new SQLiteCommand(unborrow, connection);
             command.ExecuteNonQuery();
+
+            command = new SQLiteCommand(log, connection);
+            SQLiteDataReader dataReader = command.ExecuteReader();
+            //dataReader.Read();
+
+            User u1 = new User();
+            u1.Name = dataReader["Name"].ToString();
+            u1.Address = dataReader["Address"].ToString();
+            u1.Age = int.Parse(dataReader["Age"].ToString());
+
+            Book b1 = new Book();
+            b1.Title = listView5.SelectedItems[0].SubItems[1].Text;
+            b1.Author = listView5.SelectedItems[0].SubItems[2].Text;
+
             listView4.Items.Clear();
             listView5.Items.Clear();
             listView2.Items.Clear();
+
             Select_Star_Book_Borrow_Tab();
             Select_Star_Book();
             Select_Star_Book_Unborrow_Tab();
+
             Deselect_User();
             Deselect_Book();
+
             button7.Enabled = false;
             button8.Enabled = false;
+
+            //storing into the log
+            Add_To_Log($"Unborrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Unborrowed Book: '{b1.Title}, {b1.Author}', on ");
         }
     }
 }
