@@ -157,43 +157,58 @@ namespace Borrowing_System
         }
         private void App_Load(object sender, EventArgs e)
         {
-            numericUpDown2.Controls[0].Visible = false;
-            numericUpDown3.Controls[0].Visible = false;
-
-            connection = new SQLiteConnection("Data Source=DB.sqlite;Version=3;");
-            connection.Open();
-
-            Select_Star_User();
-            Select_Star_Book();
-
-            Select_Star_User_Borrow_Tab();
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book_Unborrow_Tab();
-
-            string sql = "SELECT COUNT(ID) FROM User;";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            int num = int.Parse(reader["COUNT(ID)"].ToString());
-            if (num > 0) {
-                sql = "SELECT MAX(ID) FROM User;";
-                command = new SQLiteCommand(sql, connection);
-                reader = command.ExecuteReader();
-                reader.Read();
-                User.setNumber(int.Parse(reader["MAX(ID)"].ToString())+1);
- 
-            }
-
-            sql = "SELECT COUNT(ID) FROM Book;";
-            command = new SQLiteCommand(sql, connection);
-            reader = command.ExecuteReader();
-            num = int.Parse(reader["COUNT(ID)"].ToString());
-            if (num > 0)
+            try
             {
-                sql = "SELECT MAX(ID) FROM Book;";
+                numericUpDown2.Controls[0].Visible = false;
+                numericUpDown3.Controls[0].Visible = false;
+
+                connection = new SQLiteConnection("Data Source=DB.sqlite;Version=3;");
+                connection.Open();
+
+                var com = new SQLiteCommand("PRAGMA foreign_keys = ON", connection);
+                com.ExecuteNonQuery();
+
+                Select_Star_User();
+                Select_Star_Book();
+
+                Select_Star_User_Borrow_Tab();
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book_Unborrow_Tab();
+
+                string sql = "SELECT COUNT(ID) FROM User;";
+                SQLiteCommand command = new SQLiteCommand(sql, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                int num = int.Parse(reader["COUNT(ID)"].ToString());
+                if (num > 0)
+                {
+                    sql = "SELECT MAX(ID) FROM User;";
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    reader.Read();
+                    User.setNumber(int.Parse(reader["MAX(ID)"].ToString()) + 1);
+
+                }
+
+                sql = "SELECT COUNT(ID) FROM Book;";
                 command = new SQLiteCommand(sql, connection);
                 reader = command.ExecuteReader();
-                reader.Read();
-                Book.setNumber(int.Parse(reader["MAX(ID)"].ToString())+1);
+                num = int.Parse(reader["COUNT(ID)"].ToString());
+                if (num > 0)
+                {
+                    sql = "SELECT MAX(ID) FROM Book;";
+                    command = new SQLiteCommand(sql, connection);
+                    reader = command.ExecuteReader();
+                    reader.Read();
+                    Book.setNumber(int.Parse(reader["MAX(ID)"].ToString()) + 1);
+                }
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Error connecting to the database, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -203,28 +218,43 @@ namespace Borrowing_System
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "" || textBox2.Text == "")
+            try
             {
-                MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (textBox1.Text == "" || textBox2.Text == "")
+                {
+                    MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (numericUpDown1.Value > 120m || numericUpDown1.Value < 1m)
+                {
+                    MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                User u1 = new User(textBox1.Text, textBox2.Text, int.Parse(numericUpDown1.Value.ToString()));
+
+                string add = $"INSERT INTO USER VALUES({u1.ID},'{u1.Name}','{u1.Address}',{u1.Age});";
+                SQLiteCommand command = new SQLiteCommand(add, connection);
+                command.ExecuteNonQuery();
+
+                Select_Star_User();
+                Select_Star_User_Borrow_Tab();
+
+                //storing into the log
+                Add_To_Log($"Added a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
             }
-            else if (numericUpDown1.Value > 120m || numericUpDown1.Value < 1m)
+            catch (System.Data.SQLite.SQLiteException)
             {
-                MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            User u1 = new User(textBox1.Text, textBox2.Text, int.Parse(numericUpDown1.Value.ToString()));
-
-            string add = $"INSERT INTO USER VALUES({u1.ID},'{u1.Name}','{u1.Address}',{u1.Age});";
-            SQLiteCommand command = new SQLiteCommand(add, connection);
-            command.ExecuteNonQuery();
-
-            Select_Star_User();
-            Select_Star_User_Borrow_Tab();
-
-            //storing into the log
-            Add_To_Log($"Added a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("User added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
 
@@ -248,101 +278,142 @@ namespace Borrowing_System
 
         private void button2_Click(object sender, EventArgs e)
         {
-            User u1 = new User();
-            u1.Name = listView1.SelectedItems[0].SubItems[1].Text;
-            u1.Address = listView1.SelectedItems[0].SubItems[2].Text;
-            u1.Age = int.Parse(listView1.SelectedItems[0].SubItems[3].Text);
+            try
+            {
+                User u1 = new User();
+                u1.Name = listView1.SelectedItems[0].SubItems[1].Text;
+                u1.Address = listView1.SelectedItems[0].SubItems[2].Text;
+                u1.Age = int.Parse(listView1.SelectedItems[0].SubItems[3].Text);
 
-            string delete = $"DELETE FROM USER WHERE ID ={listView1.SelectedItems[0].Text};";
-            SQLiteCommand command = new SQLiteCommand(delete, connection);
-            command.ExecuteNonQuery();
+                string delete = $"DELETE FROM USER WHERE ID ={listView1.SelectedItems[0].Text};";
+                SQLiteCommand command = new SQLiteCommand(delete, connection);
+                command.ExecuteNonQuery();
 
-            listView1.Items.Clear();
-            listView3.Items.Clear();
-            listView2.Items.Clear();
-            listView4.Items.Clear();
-            listView5.Items.Clear();
+                listView1.Items.Clear();
+                listView3.Items.Clear();
+                listView2.Items.Clear();
+                listView4.Items.Clear();
+                listView5.Items.Clear();
 
-            Select_Star_User();
-            Select_Star_User_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book_Unborrow_Tab();
+                Select_Star_User();
+                Select_Star_User_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book_Unborrow_Tab();
 
-            Deselect_User();
-            Deselect_Book();
-            button7.Enabled = false;
-            button8.Enabled = false;
-            //storing into the log
+                Deselect_User();
+                Deselect_Book();
+                button7.Enabled = false;
+                button8.Enabled = false;
+                //storing into the log
 
-            Add_To_Log($"Deleted a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
-
+                Add_To_Log($"Deleted a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("User deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-
-            if (textBox8.Text=="" || textBox9.Text == "")
+            try
             {
-                MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (textBox8.Text == "" || textBox9.Text == "")
+                {
+                    MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (numericUpDown4.Value > 120m || numericUpDown4.Value < 1m)
+                {
+                    MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string update = $"UPDATE User SET Name='{textBox8.Text}', Address='{textBox9.Text}', Age={numericUpDown4.Value} WHERE ID = {numericUpDown3.Value};";
+
+                User u1 = new User();
+                u1.Name = textBox8.Text;
+                u1.Address = textBox9.Text;
+                u1.Age = int.Parse(numericUpDown4.Value.ToString());
+
+                SQLiteCommand command = new SQLiteCommand(update, connection);
+                command.ExecuteNonQuery();
+
+                listView1.Items.Clear();
+                listView3.Items.Clear();
+
+                Select_Star_User();
+                Select_Star_User_Borrow_Tab();
+
+                Deselect_Book();
+                Deselect_User();
+
+                button7.Enabled = false;
+
+                //storing into the log
+                Add_To_Log($"Updated a user, new record: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
             }
-            else if (numericUpDown4.Value > 120m || numericUpDown4.Value < 1m)
+            catch (System.Data.SQLite.SQLiteException)
             {
-                MessageBox.Show("Please enter a valid age (between 1 and 120)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            string update = $"UPDATE User SET Name='{textBox8.Text}', Address='{textBox9.Text}', Age={numericUpDown4.Value} WHERE ID = {numericUpDown3.Value};";
-
-            User u1 = new User();
-            u1.Name = textBox8.Text;
-            u1.Address = textBox9.Text;
-            u1.Age = int.Parse(numericUpDown4.Value.ToString());
-
-            SQLiteCommand command = new SQLiteCommand(update, connection);
-            command.ExecuteNonQuery();
-
-            listView1.Items.Clear();
-            listView3.Items.Clear();
-
-            Select_Star_User();
-            Select_Star_User_Borrow_Tab();
-
-            Deselect_Book();
-
-            button7.Enabled = false;
-
-            //storing into the log
-            Add_To_Log($"Updated a user, new record: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
-
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("User updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-            if (textBox3.Text == "" || textBox4.Text == "")
+            try
             {
-                MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (textBox3.Text == "" || textBox4.Text == "")
+                {
+                    MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Book b1 = new Book(textBox3.Text, textBox4.Text);
+
+                string add = $"INSERT INTO Book VALUES({b1.ID},'{b1.Title}','{b1.Author}',NULL);";
+                SQLiteCommand command = new SQLiteCommand(add, connection);
+                command.ExecuteNonQuery();
+
+                listView4.Items.Clear();
+                listView5.Items.Clear();
+
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Unborrow_Tab();
+
+                //storing into the log
+                Add_To_Log($"Added a Book: '{b1.Title}, {b1.Author}', on ");
             }
-
-            Book b1 = new Book(textBox3.Text, textBox4.Text);
-
-            string add = $"INSERT INTO Book VALUES({b1.ID},'{b1.Title}','{b1.Author}',NULL);";
-            SQLiteCommand command = new SQLiteCommand(add, connection);
-            command.ExecuteNonQuery();
-
-            listView4.Items.Clear();
-            listView5.Items.Clear();
-
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Unborrow_Tab();
-
-            //storing into the log
-            Add_To_Log($"Added a Book: '{b1.Title}, {b1.Author}', on ");
-
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("Book added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
@@ -363,98 +434,141 @@ namespace Borrowing_System
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Book b1 = new Book();
-            b1.Title = listView2.SelectedItems[0].SubItems[1].Text;
-            b1.Author = listView2.SelectedItems[0].SubItems[2].Text;
+            try
+            {
+                Book b1 = new Book();
+                b1.Title = listView2.SelectedItems[0].SubItems[1].Text;
+                b1.Author = listView2.SelectedItems[0].SubItems[2].Text;
 
-            string delete = $"DELETE FROM Book WHERE ID ={listView2.SelectedItems[0].Text};";
-            SQLiteCommand command = new SQLiteCommand(delete, connection);
-            command.ExecuteNonQuery();
+                string delete = $"DELETE FROM Book WHERE ID ={listView2.SelectedItems[0].Text};";
+                SQLiteCommand command = new SQLiteCommand(delete, connection);
+                command.ExecuteNonQuery();
 
-            listView2.Items.Remove(listView2.SelectedItems[0]);
-            listView4.Items.Clear();
-            listView5.Items.Clear();
-            listView2.Items.Clear();
+                listView2.Items.Remove(listView2.SelectedItems[0]);
+                listView4.Items.Clear();
+                listView5.Items.Clear();
+                listView2.Items.Clear();
 
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Unborrow_Tab();
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Unborrow_Tab();
 
-            Deselect_Book();
+                Deselect_Book();
 
-            button7.Enabled = false;
-            button8.Enabled = false;
+                button7.Enabled = false;
+                button8.Enabled = false;
 
-            //storing into the log
-             Add_To_Log($"Deleted a book: '{b1.Title}, {b1.Author}', on ");
-
+                //storing into the log
+                Add_To_Log($"Deleted a book: '{b1.Title}, {b1.Author}', on ");
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("Book deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (textBox5.Text == "" || textBox7.Text == "")
+            try
             {
-                MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (textBox5.Text == "" || textBox7.Text == "")
+                {
+                    MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string update = $"UPDATE Book SET Title='{textBox5.Text}', Author='{textBox7.Text}' WHERE ID={numericUpDown2.Value};";
+                SQLiteCommand command = new SQLiteCommand(update, connection);
+                command.ExecuteNonQuery();
+
+                Book b1 = new Book();
+                b1.Author = textBox7.Text;
+                b1.Title = textBox5.Text;
+
+                listView4.Items.Clear();
+                listView5.Items.Clear();
+                listView2.Items.Clear();
+
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Unborrow_Tab();
+
+                Deselect_Book();
+
+                button8.Enabled = false;
+                button7.Enabled = false;
+
+                //storing into the log
+                Add_To_Log($"Updated a book, new record: '{b1.Title}, {b1.Author}', on ");
             }
-
-            string update = $"UPDATE Book SET Title='{textBox5.Text}', Author='{textBox7.Text}' WHERE ID={numericUpDown2.Value};";
-            SQLiteCommand command = new SQLiteCommand(update, connection);
-            command.ExecuteNonQuery();
-
-            Book b1 = new Book();
-            b1.Author = textBox7.Text;
-            b1.Title = textBox5.Text;
-
-            listView4.Items.Clear();
-            listView5.Items.Clear();
-            listView2.Items.Clear();
-
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Unborrow_Tab();
-
-            Deselect_Book();
-
-            button8.Enabled = false;
-            button7.Enabled = false;
-
-            //storing into the log
-            Add_To_Log($"Updated a book, new record: '{b1.Title}, {b1.Author}', on ");
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("Book updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string borrow = $"UPDATE BOOK SET UserID ={listView3.SelectedItems[0].Text} WHERE ID = {listView4.SelectedItems[0].Text};";
+                SQLiteCommand command = new SQLiteCommand(borrow, connection);
+                command.ExecuteNonQuery();
 
-            string borrow = $"UPDATE BOOK SET UserID ={listView3.SelectedItems[0].Text} WHERE ID = {listView4.SelectedItems[0].Text};";
-            SQLiteCommand command = new SQLiteCommand(borrow, connection);
-            command.ExecuteNonQuery();
+                Book b1 = new Book();
+                b1.Title = listView4.SelectedItems[0].SubItems[1].Text;
+                b1.Author = listView4.SelectedItems[0].SubItems[2].Text;
 
-            Book b1 = new Book();
-            b1.Title = listView4.SelectedItems[0].SubItems[1].Text;
-            b1.Author = listView4.SelectedItems[0].SubItems[2].Text;
+                User u1 = new User();
+                u1.Name = listView3.SelectedItems[0].SubItems[1].Text;
+                u1.Address = listView3.SelectedItems[0].SubItems[2].Text;
+                u1.Age = int.Parse(listView3.SelectedItems[0].SubItems[3].Text);
 
-            User u1 = new User();
-            u1.Name = listView3.SelectedItems[0].SubItems[1].Text;
-            u1.Address = listView3.SelectedItems[0].SubItems[2].Text;
-            u1.Age = int.Parse(listView3.SelectedItems[0].SubItems[3].Text);
+                listView4.Items.Clear();
+                listView5.Items.Clear();
+                listView2.Items.Clear();
 
-            listView4.Items.Clear();
-            listView5.Items.Clear();
-            listView2.Items.Clear();
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Unborrow_Tab();
 
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Unborrow_Tab();
+                Deselect_User();
+                Deselect_Book();
 
-            Deselect_User();
-            Deselect_Book();
+                button7.Enabled = false;
+                button8.Enabled = false;
 
-            button7.Enabled = false;
-            button8.Enabled = false;
-
-            //storing into the log
-            Add_To_Log($"Borrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Borrowed Book: '{b1.Title}, {b1.Author}', on ");
+                //storing into the log
+                Add_To_Log($"Borrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Borrowed Book: '{b1.Title}, {b1.Author}', on ");
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("Borrowed successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void listView3_SelectedIndexChanged(object sender, EventArgs e)
@@ -493,40 +607,55 @@ namespace Borrowing_System
 
         private void button8_Click(object sender, EventArgs e)
         {
-            string log = $"SELECT Name, Address, Age FROM User WHERE ID ={listView5.SelectedItems[0].SubItems[3].Text};";
-            string unborrow = $"UPDATE Book SET UserID = NULL WHERE ID={listView5.SelectedItems[0].Text};";
-            SQLiteCommand command = new SQLiteCommand(unborrow, connection);
-            command.ExecuteNonQuery();
+            try
+            {
+                string log = $"SELECT Name, Address, Age FROM User WHERE ID ={listView5.SelectedItems[0].SubItems[3].Text};";
+                string unborrow = $"UPDATE Book SET UserID = NULL WHERE ID={listView5.SelectedItems[0].Text};";
+                SQLiteCommand command = new SQLiteCommand(unborrow, connection);
+                command.ExecuteNonQuery();
 
-            command = new SQLiteCommand(log, connection);
-            SQLiteDataReader dataReader = command.ExecuteReader();
-            //dataReader.Read();
+                command = new SQLiteCommand(log, connection);
+                SQLiteDataReader dataReader = command.ExecuteReader();
+                //dataReader.Read();
 
-            User u1 = new User();
-            u1.Name = dataReader["Name"].ToString();
-            u1.Address = dataReader["Address"].ToString();
-            u1.Age = int.Parse(dataReader["Age"].ToString());
+                User u1 = new User();
+                u1.Name = dataReader["Name"].ToString();
+                u1.Address = dataReader["Address"].ToString();
+                u1.Age = int.Parse(dataReader["Age"].ToString());
 
-            Book b1 = new Book();
-            b1.Title = listView5.SelectedItems[0].SubItems[1].Text;
-            b1.Author = listView5.SelectedItems[0].SubItems[2].Text;
+                Book b1 = new Book();
+                b1.Title = listView5.SelectedItems[0].SubItems[1].Text;
+                b1.Author = listView5.SelectedItems[0].SubItems[2].Text;
 
-            listView4.Items.Clear();
-            listView5.Items.Clear();
-            listView2.Items.Clear();
+                listView4.Items.Clear();
+                listView5.Items.Clear();
+                listView2.Items.Clear();
 
-            Select_Star_Book_Borrow_Tab();
-            Select_Star_Book();
-            Select_Star_Book_Unborrow_Tab();
+                Select_Star_Book_Borrow_Tab();
+                Select_Star_Book();
+                Select_Star_Book_Unborrow_Tab();
 
-            Deselect_User();
-            Deselect_Book();
+                Deselect_User();
+                Deselect_Book();
 
-            button7.Enabled = false;
-            button8.Enabled = false;
+                button7.Enabled = false;
+                button8.Enabled = false;
 
-            //storing into the log
-            Add_To_Log($"Unborrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Unborrowed Book: '{b1.Title}, {b1.Author}', on ");
+                //storing into the log
+                Add_To_Log($"Unborrowed a book, User: '{u1.Name}, {u1.Address}, {u1.Age}' Unborrowed Book: '{b1.Title}, {b1.Author}', on ");
+            }
+            catch (System.Data.SQLite.SQLiteException)
+            {
+                MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MessageBox.Show("Unborrowed successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
