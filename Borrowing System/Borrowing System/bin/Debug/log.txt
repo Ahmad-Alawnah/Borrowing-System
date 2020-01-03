@@ -1,74 +1,16 @@
 
-Deleted a user: 'Abdo2, Despacito, 19', on 31-Dec-19 6:21:45 PM
+Deleted a user: 'Ahmad, Ammman, 21', on 03-Jan-20 9:08:49 AM
 
-Borrowed a book, User: 'Ahmad Yousef, yes, 20' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:21:49 PM
+Deleted a book: 'awdawd, awdawd', on 03-Jan-20 9:08:53 AM
 
-Borrowed a book, User: 'Ahmad, Alawnah, 1' Borrowed Book: 'Book6, Despacito3', on 31-Dec-19 6:21:52 PM
+Added a user: 'Ahmad, Amman, 20', on 03-Jan-20 10:00:22 AM
 
-Deleted a user: 'Ahmad Yousef, yes, 20', on 31-Dec-19 6:34:52 PM
+Added a Book: 'Book1, Khalil', on 03-Jan-20 10:00:35 AM
 
-Borrowed a book, User: 'Ahmad, Alawnah, 1' Borrowed Book: 'Book6, Despacito3', on 31-Dec-19 6:38:14 PM
+Added a Book: 'Book2, Abdo', on 03-Jan-20 10:00:42 AM
 
-Borrowed a book, User: 'boiii, notboiii, 1' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:39:53 PM
+Borrowed a book, User: 'Ahmad, Amman, 20' Borrowed Book: 'Book2, Abdo', on 03-Jan-20 10:00:47 AM
 
-Borrowed a book, User: 'boiii, notboiii, 1' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:40:30 PM
+Updated a user, new record: 'Hassan, Amman, 20', on 03-Jan-20 10:00:56 AM
 
-Borrowed a book, User: 'Ahmad, Alawnah, 1' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:41:03 PM
-
-Unborrowed a book, User: 'Ahmad, Alawnah, 1' Unborrowed Book: 'Book4, Despacito', on 31-Dec-19 6:41:07 PM
-
-Borrowed a book, User: 'boiii, notboiii, 1' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:44:07 PM
-
-Deleted a user: 'boiii, notboiii, 1', on 31-Dec-19 6:44:10 PM
-
-Borrowed a book, User: 'awdwd, awdawd, 1' Borrowed Book: 'Book6, Despacito3', on 31-Dec-19 6:48:02 PM
-
-Deleted a user: 'awdwd, awdawd, 1', on 31-Dec-19 6:48:05 PM
-
-Borrowed a book, User: 'Ahmad, Alawnah, 1' Borrowed Book: 'Book4, Despacito', on 31-Dec-19 6:54:04 PM
-
-Deleted a user: 'Ahmad, Alawnah, 1', on 31-Dec-19 6:54:07 PM
-
-Added a user: 'Ahmad, Abdo, 1', on 31-Dec-19 10:24:07 PM
-
-Added a user: 'Tomato, Potato, 14', on 31-Dec-19 10:24:21 PM
-
-Added a Book: 'efef, ewd', on 31-Dec-19 10:24:35 PM
-
-Deleted a book: 'Book4, Despacito', on 31-Dec-19 10:24:36 PM
-
-Borrowed a book, User: 'Ahmad, Abdo, 1' Borrowed Book: 'Book6, Despacito3', on 31-Dec-19 10:24:47 PM
-
-Unborrowed a book, User: 'Ahmad, Abdo, 1' Unborrowed Book: 'Book6, Despacito3', on 31-Dec-19 10:24:49 PM
-
-Borrowed a book, User: 'Tomato, Potato, 14' Borrowed Book: 'efef, ewd', on 31-Dec-19 10:24:53 PM
-
-Deleted a user: 'Tomato, Potato, 14', on 31-Dec-19 10:24:56 PM
-
-Borrowed a book, User: 'Ahmad, Abdo, 1' Borrowed Book: 'Book6, Despacito3', on 31-Dec-19 10:26:22 PM
-
-Deleted a user: 'Ahmad, Abdo, 1', on 31-Dec-19 10:26:24 PM
-
-Deleted a book: 'efef, ewd', on 31-Dec-19 10:29:25 PM
-
-Deleted a user: 'Ahmad2, Hassanen, 1', on 31-Dec-19 10:29:38 PM
-
-Deleted a book: 'Book6, Despacito3', on 31-Dec-19 10:29:40 PM
-
-Added a user: 'Ahmad, Alawnah, 20', on 31-Dec-19 10:30:18 PM
-
-Added a user: 'Sharif, Sharif, 20', on 31-Dec-19 10:30:31 PM
-
-Added a Book: 'Tomato, Potato', on 31-Dec-19 10:30:39 PM
-
-Added a Book: 'How to die, Ahmad', on 31-Dec-19 10:30:48 PM
-
-Borrowed a book, User: 'Sharif, Sharif, 20' Borrowed Book: 'Tomato, Potato', on 31-Dec-19 10:30:53 PM
-
-Deleted a user: 'Sharif, Sharif, 20', on 31-Dec-19 10:30:56 PM
-
-Deleted a book: 'Tomato, Potato', on 31-Dec-19 10:35:07 PM
-
-Borrowed a book, User: 'Ahmad, Alawnah, 20' Borrowed Book: 'How to die, Ahmad', on 31-Dec-19 10:35:10 PM
-
-Deleted a user: 'Ahmad, Alawnah, 20', on 31-Dec-19 10:35:12 PM
+Unborrowed a book, User: 'Hassan, Amman, 20' Unborrowed Book: 'Book2, Abdo', on 03-Jan-20 10:01:01 AM

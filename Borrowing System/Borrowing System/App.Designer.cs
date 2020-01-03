@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -97,6 +103,8 @@
             this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader19 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -115,11 +123,50 @@
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1075, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1075, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.logToolStripMenuItem,
+            this.aboutToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(60, 24);
+            this.menuToolStripMenuItem.Text = "&Menu";
+            // 
+            // logToolStripMenuItem
+            // 
+            this.logToolStripMenuItem.Name = "logToolStripMenuItem";
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.logToolStripMenuItem.Text = "&Log";
+            this.logToolStripMenuItem.Click += new System.EventHandler(this.logToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(130, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -164,6 +211,8 @@
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Update user";
+            this.toolTip1.SetToolTip(this.groupBox4, "Select an existing user and modify thier information and click the button to appl" +
+        "y the changes");
             // 
             // button6
             // 
@@ -280,6 +329,7 @@
             this.button2.Size = new System.Drawing.Size(127, 31);
             this.button2.TabIndex = 2;
             this.button2.Text = "Delete selected";
+            this.toolTip1.SetToolTip(this.button2, "Click to delete the current selected user");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -298,6 +348,7 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add user";
+            this.toolTip1.SetToolTip(this.groupBox1, "Fill in the information and click add to add a new user");
             // 
             // button1
             // 
@@ -386,6 +437,7 @@
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(604, 317);
             this.listView1.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.listView1, "This list shows current added users");
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
@@ -433,6 +485,7 @@
             this.button5.Size = new System.Drawing.Size(124, 34);
             this.button5.TabIndex = 3;
             this.button5.Text = "Delete Selected";
+            this.toolTip1.SetToolTip(this.button5, "Click to delete the current selected book");
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -451,6 +504,8 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update Book";
+            this.toolTip1.SetToolTip(this.groupBox3, "Select an existing book and modify its information and click the button to apply " +
+        "the changes");
             // 
             // button4
             // 
@@ -541,6 +596,7 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Add Book";
+            this.toolTip1.SetToolTip(this.groupBox2, "Fill in the information and click add to add a new book");
             // 
             // button3
             // 
@@ -598,6 +654,7 @@
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(609, 343);
             this.listView2.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.listView2, "This list shows current added books");
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
             this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
@@ -634,6 +691,8 @@
             this.tabPage3.Size = new System.Drawing.Size(1042, 466);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Borrow";
+            this.toolTip1.SetToolTip(this.tabPage3, "Select a user and a book from the list and then click on borrow to make the user " +
+        "borrow the book");
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // button7
@@ -745,6 +804,7 @@
             this.tabPage4.Size = new System.Drawing.Size(1042, 466);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Unborrow";
+            this.toolTip1.SetToolTip(this.tabPage4, "Select a book and click on unborrow to unborrow the book from the user");
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // label15
@@ -804,6 +864,12 @@
             this.columnHeader19.Text = "Borrowed By";
             this.columnHeader19.Width = 120;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 6500;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -815,6 +881,8 @@
             this.Name = "App";
             this.Text = "Borrowing System";
             this.Load += new System.EventHandler(this.App_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -910,5 +978,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader18;
         private System.Windows.Forms.ColumnHeader columnHeader19;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

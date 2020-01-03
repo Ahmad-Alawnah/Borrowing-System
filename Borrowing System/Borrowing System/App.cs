@@ -247,6 +247,10 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (System.Exception)
             {
                 MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -313,6 +317,10 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (System.Exception)
             {
                 MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -358,6 +366,7 @@ namespace Borrowing_System
                 Deselect_User();
 
                 button7.Enabled = false;
+                button8.Enabled = false;
 
                 //storing into the log
                 Add_To_Log($"Updated a user, new record: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
@@ -365,6 +374,10 @@ namespace Borrowing_System
             catch (System.Data.SQLite.SQLiteException)
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (System.Exception)
             {
@@ -405,6 +418,10 @@ namespace Borrowing_System
             catch (System.Data.SQLite.SQLiteException)
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (System.Exception)
             {
@@ -465,6 +482,10 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (System.Exception)
             {
                 MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -513,6 +534,10 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (System.Exception)
             {
                 MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -560,6 +585,10 @@ namespace Borrowing_System
             catch (System.Data.SQLite.SQLiteException)
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (System.Exception)
             {
@@ -648,6 +677,10 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Database Error, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Log system failure, please try agian", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (System.Exception)
             {
                 MessageBox.Show("Unspecified Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -656,6 +689,27 @@ namespace Borrowing_System
             {
                 MessageBox.Show("Unborrowed successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (d == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.Show();
+        }
+
+        private void logToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Log log = new Log();
+            log.Show();
         }
     }
 }

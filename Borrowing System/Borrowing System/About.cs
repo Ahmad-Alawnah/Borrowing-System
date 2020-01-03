@@ -10,17 +10,16 @@ using System.Windows.Forms;
 
 namespace Borrowing_System
 {
-    public partial class Main : Form
+    public partial class About : Form
     {
-        public Main()
+        public About()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            App app = new App();
-            app.Show();
+            this.Close();
         }
     }
 }
