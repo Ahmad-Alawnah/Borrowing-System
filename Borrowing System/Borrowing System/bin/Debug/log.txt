@@ -14,3 +14,39 @@ Borrowed a book, User: 'Ahmad, Amman, 20' Borrowed Book: 'Book2, Abdo', on 03-Ja
 Updated a user, new record: 'Hassan, Amman, 20', on 03-Jan-20 10:00:56 AM
 
 Unborrowed a book, User: 'Hassan, Amman, 20' Unborrowed Book: 'Book2, Abdo', on 03-Jan-20 10:01:01 AM
+
+Added a user: 'Ahmad, Amman, 20', on 05-Jan-20 11:14:00 AM
+
+Updated a user, new record: 'Ahmed, Amman, 20', on 05-Jan-20 11:14:10 AM
+
+Deleted a user: 'Ahmed, Amman, 20', on 05-Jan-20 11:14:14 AM
+
+Borrowed a book, User: 'Hassan, Amman, 20' Borrowed Book: 'Book2, Abdo', on 05-Jan-20 11:14:57 AM
+
+Unborrowed a book, User: 'Hassan, Amman, 20' Unborrowed Book: 'Book2, Abdo', on 05-Jan-20 11:15:07 AM
+
+Added a user: 'Ahmad, Amman, 20', on 05-Jan-20 11:24:44 AM
+
+Borrowed a book, User: 'Ahmad, Amman, 20' Borrowed Book: 'Book2, Abdo', on 05-Jan-20 11:25:07 AM
+
+Unborrowed a book, User: 'Ahmad, Amman, 20' Unborrowed Book: 'Book2, Abdo', on 05-Jan-20 11:25:17 AM
+
+Added a user: 'Abdullah, Jarash, 35', on 07-Jan-20 9:33:23 AM
+
+Added a Book: 'Book3, Mahmoud', on 07-Jan-20 9:33:35 AM
+
+Added a user: 'Yasir, Salt, 27', on 07-Jan-20 9:34:30 AM
+
+Added a Book: 'Book4, Ali', on 07-Jan-20 9:35:35 AM
+
+Borrowed a book, User: 'Ahmad, Amman, 20' Borrowed Book: 'Book1, Khalil', on 07-Jan-20 9:35:41 AM
+
+Borrowed a book, User: 'Ahmad, Amman, 20' Borrowed Book: 'Book4, Ali', on 07-Jan-20 9:35:44 AM
+
+Borrowed a book, User: 'Yasir, Salt, 27' Borrowed Book: 'Book3, Mahmoud', on 07-Jan-20 9:35:49 AM
+
+Added a Book: 'Book5, Basel', on 07-Jan-20 9:44:17 AM
+
+Added a Book: 'Book6, Omar', on 07-Jan-20 9:44:32 AM
+
+Borrowed a book, User: 'Hassan, Amman, 20' Borrowed Book: 'Book6, Omar', on 07-Jan-20 9:44:40 AM

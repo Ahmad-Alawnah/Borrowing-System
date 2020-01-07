@@ -309,8 +309,8 @@ namespace Borrowing_System
                 Deselect_Book();
                 button7.Enabled = false;
                 button8.Enabled = false;
-                //storing into the log
 
+                //storing into the log
                 Add_To_Log($"Deleted a user: '{u1.Name}, {u1.Address}, {u1.Age}', on ");
             }
             catch (System.Data.SQLite.SQLiteException)
